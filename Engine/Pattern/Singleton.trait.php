@@ -1,6 +1,6 @@
 <?php
 
-namespace TestProject\Engine\Pattern;
+namespace App\Engine\Pattern;
 
 trait Singleton
 {

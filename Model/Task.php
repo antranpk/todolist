@@ -1,6 +1,6 @@
 <?php
 
-namespace TestProject\Model;
+namespace App\Model;
 
 class Task
 {
@@ -8,53 +8,68 @@ class Task
 
     public function __construct()
     {
-        $this->oDb = new \TestProject\Engine\Db;
+        $this->oDb = new \App\Engine\Db;
     }
 
-    public function get($iOffset, $iLimit)
+    public function get($offset, $limit)
     {
-        $oStmt = $this->oDb->prepare('SELECT * FROM Posts ORDER BY createdDate DESC LIMIT :offset, :limit');
-        $oStmt->bindParam(':offset', $iOffset, \PDO::PARAM_INT);
-        $oStmt->bindParam(':limit', $iLimit, \PDO::PARAM_INT);
+        $oStmt = $this->oDb->prepare('SELECT * FROM Tasks LIMIT :offset, :limit');
+        $oStmt->bindParam(':offset', $offset, \PDO::PARAM_INT);
+        $oStmt->bindParam(':limit', $limit, \PDO::PARAM_INT);
         $oStmt->execute();
         return $oStmt->fetchAll(\PDO::FETCH_OBJ);
     }
 
     public function getAll()
     {
-        $oStmt = $this->oDb->query('SELECT * FROM Posts ORDER BY createdDate DESC');
+        $oStmt = $this->oDb->query('SELECT * FROM Tasks ORDER BY id DESC');
         return $oStmt->fetchAll(\PDO::FETCH_OBJ);
     }
 
-    public function add(array $aData)
+    public function add(array $datas)
     {
-        $oStmt = $this->oDb->prepare('INSERT INTO Posts (title, body, image, createdDate) VALUES(:title, :body, :image, :created_date)');
-        return $oStmt->execute($aData);
+        $oStmt = $this->oDb->prepare('INSERT INTO Tasks (name, start_date, end_date, status) VALUES(:name, :start_date, :end_date, :status)');
+        return $oStmt->execute($datas);
     }
 
-    public function getById($iId)
+    public function getById($id)
     {
-        $oStmt = $this->oDb->prepare('SELECT * FROM Posts WHERE id = :postId LIMIT 1');
-        $oStmt->bindParam(':postId', $iId, \PDO::PARAM_INT);
+        $oStmt = $this->oDb->prepare('SELECT * FROM Tasks WHERE id = :postId LIMIT 1');
+        $oStmt->bindParam(':postId', $id, \PDO::PARAM_INT);
         $oStmt->execute();
         return $oStmt->fetch(\PDO::FETCH_OBJ);
     }
 
-    public function update(array $aData)
+    public function update(array $datas)
     {
-        $oStmt = $this->oDb->prepare('UPDATE Posts SET title = :title, body = :body, image = :image WHERE id = :postId LIMIT 1');
-        $oStmt->bindValue(':postId', $aData['post_id'], \PDO::PARAM_INT);
-        $oStmt->bindValue(':title', $aData['title']);
-        $oStmt->bindValue(':body', $aData['body']);
-        $oStmt->bindValue(':image', $aData['image']);
+        $oStmt = $this->oDb->prepare('UPDATE Tasks SET name = :name, start_date = :startDate, end_date = :endDate, status = :status WHERE id = :taskId LIMIT 1');
+        $oStmt->bindValue(':name', $datas['name'], \PDO::PARAM_STR);
+        $oStmt->bindValue(':startDate', $datas['start_date'], \PDO::PARAM_STR);
+        $oStmt->bindValue(':endDate', $datas['end_date'], \PDO::PARAM_STR);
+        $oStmt->bindValue(':status', $datas['status'], \PDO::PARAM_STR);
+        $oStmt->bindValue(':taskId', $datas['task_id'], \PDO::PARAM_INT);
         return $oStmt->execute();
     }
 
-    public function delete($iId)
+    public function delete($id)
     {
-        $oStmt = $this->oDb->prepare('DELETE FROM Posts WHERE id = :postId LIMIT 1');
-        $oStmt->bindParam(':postId', $iId, \PDO::PARAM_INT);
+        $oStmt = $this->oDb->prepare('DELETE FROM Tasks WHERE id = :taskId LIMIT 1');
+        $oStmt->bindParam(':taskId', $id, \PDO::PARAM_INT);
         return $oStmt->execute();
     }
 
+    public function getDuplicateTask($name)
+    {
+        $oStmt = $this->oDb->prepare('SELECT name FROM Tasks WHERE name = :name LIMIT 1');
+        $oStmt->bindParam(':name', $name, \PDO::PARAM_INT);
+        $oStmt->execute();
+        return $oStmt->fetch(\PDO::FETCH_OBJ);
+    }
+
+    public function getRandomTask()
+    {
+        $oStmt = $this->oDb->prepare('SELECT * FROM Tasks ORDER BY RAND() LIMIT 1');
+        $oStmt->execute();
+        return $oStmt->fetch(\PDO::FETCH_OBJ);
+    }
 }

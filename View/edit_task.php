@@ -1,26 +1,55 @@
+<?php include 'inc/head.php';?>
+<div class="container">
+    <div class="col-sm-offset-1 col-sm-10">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Task Edit
+            </div>
+            <div class="panel-body">
+                <!-- New Task Form -->
+                <form action="<?php formAction('taskController', 'update')?>" method="POST" class="form-horizontal">
+                    <!-- Task Name -->
+                    <div class="form-group">
+                        <label for="task-name" class="col-sm-3 control-label">Task Name</label>
 
-<?php require 'inc/header.php' ?>
-<?php require 'inc/msg.php' ?>
+                        <div class="col-sm-6">
+                            <input type="text" name="name" id="task-name" class="form-control" value="<?=htmlspecialchars($this->task->name)?>" required="true">
+                            <input type="hidden" name="task_id" value="<?=$this->task->id?>" required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-name" class="col-sm-3 control-label">Start date</label>
 
-<div class="center">
-<?php if (empty($this->oPost)): ?>
+                        <div class="col-sm-6">
+                            <input type="date" name="start_date" class="form-control" value="<?=htmlspecialchars($this->task->start_date)?>" required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-name" class="col-sm-3 control-label">End date</label>
 
-    <p class="error">Post Data Not Found!</p>
-<?php else: ?>
-    <form action="" method="post" class="w3-container w3-card-4 w3-light-grey" enctype="multipart/form-data">
-        <span class="center" style="font-size: 24px">Edit Post</span>
-        <p><label for="title">Title:</label><br />
-            <input type="text" class="w3-input w3-border w3-round" name="title" id="title" value="<?=htmlspecialchars($this->oPost->title)?>" required="required" />
-        </p>
+                        <div class="col-sm-6">
+                            <input type="date" name="end_date" class="form-control" value="<?=htmlspecialchars($this->task->end_date)?>" required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-name" class="col-sm-3 control-label">Status</label>
 
-        <p><label for="body">Body:</label><br />
-            <textarea name="body" class="w3-input w3-border w3-round" id="body" rows="5" cols="35" required="required"><?=htmlspecialchars($this->oPost->body)?></textarea>
-        </p>
-        <p><label for="image">Image:</label>
-            <input lass="w3-input w3-border w3-round" type="file" name="image" id="fileToUpload" >
-        </p>
-        <p><input type="submit" name="edit_submit" value="Update" /></p>
-    </form>
-<?php endif ?>
+                        <div class="col-sm-6">
+                            <label class="radio-inline"><input type="radio" name="status" value="1" required="true" <?php if (1 == $this->task->status) {echo 'checked';}?> >Planning</label>
+                                <label class="radio-inline"><input type="radio" name="status" value="2" <?php if (2 == $this->task->status) {echo 'checked';}?>>Doing</label>
+                                <label class="radio-inline"><input type="radio" name="status" value="3" <?php if (3 == $this->task->status) {echo 'checked';}?>>Done</label>
+                       </div>
+                   </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-6">
+                            <button type="submit" name="edit_task" class="btn btn-default">
+                            <i class="fa fa-btn fa-plus"></i>Edit Task
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
-<?php require 'inc/footer.php' ?>
+<?php include 'inc/footer.php';?>

@@ -1,5 +1,5 @@
-.table-text {
-    width: 70%;
+.task-name {
+    width: 50%;
 }
 
 .form-delete {
@@ -12,17 +12,33 @@ body {
 .fa-btn {
     margin-right: 6px;
 }
+
 .task-list {
     padding: 5px;
     border: 1px solid #ddd;
-    width: 64%;
     margin: 0 auto;
     border-radius: 5px;
-    margin-top: 20px;
     margin-bottom: 20px;
     background: #f5f5f5;
     text-align: center;
     font-size: 34px;
     font-weight: bold;
     color: #555;
+}
+
+@media screen and (max-width: 1200px) {
+  .task-name {
+    width: 40%;
+    }
+}
+
+.panel-default {
+    margin-top: 20px;
+}
+
+.panel-heading {
+    border: 1px solid #ddd;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
 }

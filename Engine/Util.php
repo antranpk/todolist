@@ -1,6 +1,6 @@
 <?php
 
-namespace TestProject\Engine;
+namespace App\Engine;
 
 class Util
 {
@@ -16,7 +16,7 @@ class Util
 
     private function _get($fileName, $type)
     {
-        $fullPath = ROOT_PATH . $type . '/' . $fileName . '.php';
+        $fullPath = '/var/www/html/todolist/' . $type . '/' . $fileName . '.php';
         if (is_file($fullPath)) {
             require $fullPath;
         } else {
@@ -24,11 +24,6 @@ class Util
         }
     }
 
-    /**
-     * Set variables for the template views.
-     *
-     * @return void
-     */
     public function __set($key, $val)
     {
         $this->$key = $val;
